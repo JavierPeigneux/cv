@@ -2,7 +2,6 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
-from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
@@ -220,22 +219,17 @@ def make_pdf():
 
     def add_role(title, dates, bullets, compact=False, team=False):
         nonlocal y
-        y -= 7 if team else 10
+        y -= 4 if team else 7
         indent = 8 if team else 0
         if team:
-            date_width = stringWidth(dates, "Lato", 7.7)
-            title_width = content_w - indent - date_width - 10
-            title_bottom = paragraph(c, title, content_x + indent, y, title_width, team_role)
-            c.setFillColor(MUTED)
-            c.setFont("Lato", 7.7)
-            c.drawRightString(content_x + content_w, y - 8.5, dates)
-            y = title_bottom - 3
+            y = paragraph(c, title, content_x + indent, y, content_w - indent, team_role) - 2
+            y = paragraph(c, dates, content_x + indent, y, content_w - indent, date) - 3
         else:
             y = paragraph(c, title, content_x, y, content_w, role) - 2
             y = paragraph(c, dates, content_x, y, content_w, date) - 4
         for item in bullets:
             h_before = y
-            y = paragraph(c, f"• {item}", content_x + indent + 2, y, content_w - indent - 2, bullet) - 2
+            y = paragraph(c, f"• {item}", content_x + indent + 2, y, content_w - indent - 2, bullet) - 1
             if h_before - y > 45:
                 ensure(5)
 

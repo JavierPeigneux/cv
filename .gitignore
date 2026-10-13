@@ -1,0 +1,9 @@
+.DS_Store
+pdf-venv/
+.venv/
+__pycache__/
+cv-work/pdf-venv/
+cv-work/pdfs/resume-page-1.png
+cv-work/linkedin-profile.html
+Resume.pdf
+*.log

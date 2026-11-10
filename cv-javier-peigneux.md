@@ -1,12 +1,15 @@
 # Javier Peigneux
 
-**iOS Software Developer**  
+**Senior iOS Engineer**
+
+Swift · SwiftUI · UIKit · Objective-C  
+Modular Architecture · CI/CD · AI-Assisted Development  
 [LinkedIn](https://www.linkedin.com/in/javier-peigneux-d-egmont/) · [javierpeigneux@gmail.com](mailto:javierpeigneux@gmail.com)  
-Valencia, Spain
+Valencia, Spain · Open to remote opportunities
 
 ## Profile
 
-iOS engineer with 14 years of experience delivering consumer and client-facing apps. Experienced in modular Swift codebases, SwiftUI/UIKit and GraphQL, with a focus on onboarding, profiles, design systems and automated testing.
+Senior iOS Engineer with 14 years of experience delivering consumer apps and products for international clients. Experienced in modular Swift architectures, SwiftUI/UIKit and GraphQL, with a track record of delivering onboarding, profile and content experiences. Strong focus on maintainable architecture, accessible interfaces and automated testing, working closely with Product and Design from discovery to release.
 
 ## Experience
 
@@ -14,50 +17,11 @@ iOS engineer with 14 years of experience delivering consumer and client-facing a
 
 Valencia, Spain · May 2020 - November 2026
 
-- Deliver iOS features in a modular Swift codebase, collaborating with product, design and engineering from discovery through code review and release.
-
-#### Well Described Talents Team (Profile & Onboarding)
-
-2023 - 2026
-
-- Built GraphQL-backed profile and onboarding flows, including Documents, data imports, skills and work eligibility, with accessibility and end-to-end coverage.
-- Modernized localization with String(localized:) and migrated unit tests to Swift Testing.
-
-#### Notifications Team
-
-2024 - 2025
-
-- Improved the notification center and recruiter/contact notifications, including notification limits, tracking and accessibility.
-
-#### Job Preferences Team
-
-2024
-
-- Developed preference collection flows and job-title logic to support job search and profile preferences.
-
-#### Content Team
-
-2024
-
-- Built video and premium article experiences, integrating membership access, caching and GraphQL data.
-
-#### Disco Team
-
-2020 - 2023
-
-- Built social-feed features including stories, comments, sharing and recommendations; improved reusable UI, GraphQL integration and unit/UI coverage.
-
-#### Armstrong Team
-
-2020 - 2021
-
-- Contributed to the iOS migration across the social feed, native advertising and recommendations, including navigation, analytics and test infrastructure.
-
-#### Design Team
-
-2020
-
-- Contributed typography, layout behavior, documentation and examples to XING's SwiftUI design system.
+- **Profile & onboarding:** Built GraphQL-backed flows for documents, data imports, skills and work eligibility, with accessibility and end-to-end test coverage.
+- **Modular architecture & reusable UI:** Delivered features in a modular Swift codebase and improved reusable components, navigation and test infrastructure across the social feed.
+- **SwiftUI design system:** Contributed typography, layout behavior, documentation and examples to XING's SwiftUI design system.
+- **Testing & localization:** Migrated unit tests to Swift Testing and modernized localization with String(localized:); maintained unit, UI and end-to-end coverage.
+- **Content & notifications:** Built stories, comments, sharing, video and premium article experiences; improved the notification center, tracking and accessibility.
 
 ### treeNovum
 

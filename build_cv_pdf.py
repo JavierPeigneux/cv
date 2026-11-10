@@ -7,7 +7,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 from reportlab.lib.utils import ImageReader
-from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.enums import TA_LEFT, TA_JUSTIFY
 from PIL import Image, ImageOps
 import os
 from pathlib import Path
@@ -30,6 +30,7 @@ FONT_DIR = os.environ.get("CV_FONT_DIR", os.path.join(OUT_DIR, "assets", "fonts"
 pdfmetrics.registerFont(TTFont("Lato", os.path.join(FONT_DIR, "Lato-Regular.ttf")))
 pdfmetrics.registerFont(TTFont("Lato-Bold", os.path.join(FONT_DIR, "Lato-Bold.ttf")))
 pdfmetrics.registerFont(TTFont("Lato-Black", os.path.join(FONT_DIR, "Lato-Black.ttf")))
+pdfmetrics.registerFontFamily("Lato", normal="Lato", bold="Lato-Bold", italic="Lato", boldItalic="Lato-Bold")
 
 
 def paragraph(c, text, x, y_top, width, style):
@@ -55,12 +56,12 @@ def heading(c, text, x, y, width):
 
 def sidebar_section(c, title, x, y, width):
     c.setFillColor(colors.white)
-    c.setFont("Lato-Bold", 9.2)
+    c.setFont("Lato-Bold", 11)
     c.drawString(x, y, title)
     c.setStrokeColor(GREEN)
     c.setLineWidth(1.5)
-    c.line(x, y - 6, x + 24, y - 6)
-    return y - 17
+    c.line(x, y - 6, x + 40, y - 6)
+    return y - 21
 
 
 def linkedin_icon(c, x, y, size=8):
@@ -97,12 +98,12 @@ def draw_sidebar(c, page_number):
     width = SIDEBAR_W - 16 * mm
 
     c.setFillColor(colors.white)
-    c.setFont("Lato-Black", 19)
+    c.setFont("Lato-Black", 22)
     c.drawString(x, PAGE_H - 18 * mm, "Javier")
     c.drawString(x, PAGE_H - 26 * mm, "Peigneux")
-    c.setFont("Lato", 8.2)
+    c.setFont("Lato-Bold", 10)
     c.setFillColor(colors.HexColor("#D7DADB"))
-    c.drawString(x, PAGE_H - 34 * mm, "iOS Software Developer")
+    c.drawString(x, PAGE_H - 34 * mm, "Senior iOS Engineer")
 
     photo_size = 41.6 * mm
     photo_center_y = PAGE_H - 61 * mm
@@ -140,6 +141,8 @@ def draw_sidebar(c, page_number):
     y -= 13
     location_icon(c, x, y - 1)
     c.drawString(x + 12, y, "Valencia, Spain")
+    c.setFont("Lato", 7.5)
+    c.drawString(x + 12, y - 13, "Open to remote opportunities")
 
 def draw_sidebar_details(c):
     x = 8 * mm
@@ -162,7 +165,7 @@ def draw_sidebar_details(c):
         y -= 12
         y = paragraph(c, value, x, y + 2, width, ParagraphStyle("skill", fontName="Lato", fontSize=8, leading=10, textColor=colors.white)) - 7
 
-    y -= 10
+    y -= 14
     y = sidebar_section(c, "Education", x, y, width)
     education = [
         ("Universitat Politècnica de València", "Technical Engineering in Computer Management<br/>2007 - 2011"),
@@ -174,7 +177,7 @@ def draw_sidebar_details(c):
         y = paragraph(c, school, x, y, width, ParagraphStyle("school", fontName="Lato-Bold", fontSize=8, leading=10, textColor=GREEN)) - 3
         y = paragraph(c, detail, x, y, width, ParagraphStyle("edu", fontName="Lato", fontSize=7.8, leading=10, textColor=colors.white)) - 8
 
-    y -= 8
+    y -= 12
     y = sidebar_section(c, "Languages", x, y, width)
     for language, level in [("Spanish", "Native"), ("English", "Full professional"), ("Valencian", "Bilingual")]:
         c.setFillColor(colors.white)
@@ -194,11 +197,11 @@ def make_pdf():
     content_x = SIDEBAR_W + 8 * mm
     content_w = PAGE_W - content_x - 8 * mm
 
-    body = ParagraphStyle("body", fontName="Lato", fontSize=8.7, leading=11, textColor=TEXT, alignment=TA_LEFT)
+    body = ParagraphStyle("body", fontName="Lato", fontSize=10, leading=13.5, textColor=TEXT, alignment=TA_JUSTIFY)
     role = ParagraphStyle("role", fontName="Lato-Bold", fontSize=11, leading=13, textColor=TEXT)
     team_role = ParagraphStyle("team_role", fontName="Lato-Bold", fontSize=8.5, leading=10.5, textColor=TEXT)
     date = ParagraphStyle("date", fontName="Lato", fontSize=8, leading=10, textColor=MUTED)
-    bullet = ParagraphStyle("bullet", fontName="Lato", fontSize=8.5, leading=10.5, textColor=TEXT, leftIndent=8, firstLineIndent=-5)
+    bullet = ParagraphStyle("bullet", fontName="Lato", fontSize=9.3, leading=12.5, textColor=TEXT, leftIndent=8, firstLineIndent=-5, alignment=TA_JUSTIFY)
 
     def new_page(number):
         nonlocal y
@@ -219,7 +222,7 @@ def make_pdf():
 
     def add_role(title, dates, bullets, compact=False, team=False):
         nonlocal y
-        y -= 4 if team else 7
+        y -= 4 if team else 12
         indent = 8 if team else 0
         if team:
             y = paragraph(c, title, content_x + indent, y, content_w - indent, team_role) - 2
@@ -229,31 +232,24 @@ def make_pdf():
             y = paragraph(c, dates, content_x, y, content_w, date) - 4
         for item in bullets:
             h_before = y
-            y = paragraph(c, f"• {item}", content_x + indent + 2, y, content_w - indent - 2, bullet) - 1
+            y = paragraph(c, f"• {item}", content_x + indent + 2, y, content_w - indent - 2, bullet) - 5
             if h_before - y > 45:
                 ensure(5)
 
     page_number = 1
     new_page(page_number)
+    y = paragraph(c, "Swift · SwiftUI · UIKit · Objective-C<br/>Modular Architecture · CI/CD · AI-Assisted Development", content_x, y + 7, content_w, ParagraphStyle("focus", fontName="Lato-Bold", fontSize=11, leading=16, textColor=TEXT)) - 22
     add_section("Profile")
-    y = paragraph(c, "iOS engineer with 14 years of experience delivering consumer and client-facing apps. Experienced in modular Swift codebases, SwiftUI/UIKit and GraphQL, with a focus on onboarding, profiles, design systems and automated testing.", content_x, y, content_w, body) - 19
+    y = paragraph(c, 'Senior iOS Engineer with 14 years of experience delivering consumer apps and products for international clients. Experienced in modular Swift architectures, SwiftUI/UIKit and GraphQL, with a track record of delivering onboarding, profile and content experiences. Strong focus on maintainable architecture, accessible interfaces and automated testing, working closely with Product and Design from discovery to release.', content_x, y, content_w, body) - 22
 
     add_section("Experience")
     add_role("XING", "Valencia, Spain · May 2020 - November 2026", [
-        "Deliver iOS features in a modular Swift codebase, collaborating with product, design and engineering from discovery through code review and release.",
+        '<b>Profile & onboarding:</b> Built GraphQL-backed flows for documents, data imports, skills and work eligibility, with accessibility and end-to-end test coverage.',
+        '<b>Modular architecture & reusable UI:</b> Delivered features in a modular Swift codebase and improved reusable components, navigation and test infrastructure across the social feed.',
+        "<b>SwiftUI design system:</b> Contributed typography, layout behavior, documentation and examples to XING's SwiftUI design system.",
+        '<b>Testing & localization:</b> Migrated unit tests to Swift Testing and modernized localization with String(localized:); maintained unit, UI and end-to-end coverage.',
+        '<b>Content & notifications:</b> Built stories, comments, sharing, video and premium article experiences; improved the notification center, tracking and accessibility.',
     ])
-    add_role("Well Described Talents Team (Profile & Onboarding)", "2023 - 2026", [
-        "Built GraphQL-backed profile and onboarding flows, including Documents, data imports, skills and work eligibility, with accessibility and end-to-end coverage.",
-        "Modernized localization with String(localized:) and migrated unit tests to Swift Testing.",
-    ], compact=True, team=True)
-    add_role("Notifications Team", "2024 - 2025", ["Improved the notification center and recruiter/contact notifications, including notification limits, tracking and accessibility."], compact=True, team=True)
-    add_role("Job Preferences Team", "2024", ["Developed preference collection flows and job-title logic to support job search and profile preferences."], compact=True, team=True)
-    add_role("Content Team", "2024", ["Built video and premium article experiences, integrating membership access, caching and GraphQL data."], compact=True, team=True)
-    add_role("Disco Team", "2020 - 2023", [
-        "Built social-feed features including stories, comments, sharing and recommendations; improved reusable UI, GraphQL integration and unit/UI coverage.",
-    ], compact=True, team=True)
-    add_role("Armstrong Team", "2020 - 2021", ["Contributed to the iOS migration across the social feed, native advertising and recommendations, including navigation, analytics and test infrastructure."], compact=True, team=True)
-    add_role("Design Team", "2020", ["Contributed typography, layout behavior, documentation and examples to XING's SwiftUI design system."], compact=True, team=True)
     add_role("treeNovum", "Valencia, Spain · January 2019 - May 2020", [
         "Maintained complex iOS apps for the Swiss Ice Hockey League and Coca-Cola, working with Combine and product/engineering stakeholders.",
     ], compact=True)
